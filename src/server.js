@@ -1,4 +1,5 @@
 import express from 'express';
+import connectDB from './config/connectDB'
 import bodyParser from 'body-parser'; // Lấy các tham số từ user gọi lên server như param, body
 import configViewEngine from "./config/viewEngine";
 import initWebRouter from "./route/web.js";
@@ -14,6 +15,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 configViewEngine(app); // app là một instand của express
 initWebRouter(app); // app là một instand của express
+
+// connectDB
+connectDB(); 
 
 let port = process.env.PORT || 6969;
 app.listen(port, () => {
