@@ -15,6 +15,8 @@ let createNewUser = async(data) => {
                 roleId: data.role,
                 phoneNumber: data.phonenumber,
             })
+            let users = db.User.findAll({raw:true});
+            resolve(users); // Để thoát khỏi promise <=> return user
             resolve('ok create a new user success!');
         } catch (error) {
             reject(error);
@@ -85,9 +87,28 @@ let updateUserData = (data) => {
         }
     })
 }
+
+let deleteUserById = (UserId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user =await db.User.findOne({
+                where: { id: UserId}
+            })
+            if (user) {
+                await user.destroy();
+            }
+            let users = db.User.findAll({raw:true});
+            resolve(users); // Để thoát khỏi promise <=> return user
+            resolve();
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
 module.exports = {
     createNewUser,
     getAllUser,
     getUserInfoById,
-    updateUserData
+    updateUserData,
+    deleteUserById
 };
